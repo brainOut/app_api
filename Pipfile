@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 flask = "*"
 pip-autoremove = "*"
-flask-restplus = "*"
 flask-sqlalchemy = "*"
 python-dotenv = "*"
 
