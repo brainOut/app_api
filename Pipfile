@@ -4,7 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+pip-autoremove = "*"
 flask-restplus = "*"
+flask-sqlalchemy = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
