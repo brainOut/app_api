@@ -8,6 +8,8 @@ flask = "*"
 pip-autoremove = "*"
 flask-sqlalchemy = "*"
 python-dotenv = "*"
+pylint-flask-sqlalchemy = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
