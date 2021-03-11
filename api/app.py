@@ -9,13 +9,13 @@ import jwt
 import datetime
 
 ##################### SETUP #####################
-##################################################
+#################################################
 
 load_dotenv
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'pouecsecret'
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.environ.get('POSTGRES_USER')}:{os.environ.get('POSTGRES_PASS')}@{os.environ.get('POSTGRES_HOST')}/{os.environ.get('POSTGRES_DB')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
@@ -33,7 +33,7 @@ class Users(db.Model):
 
 
 ##################### AUTHENTICATION #####################
-##################################################
+##########################################################
 
 def token_required(f):
     @wraps(f)
@@ -143,7 +143,7 @@ def login():
 
 
 ##################### UTILS #####################
-##################################################
+#################################################
 
 def return_user(public_id='',name=''):
     if public_id != '':
