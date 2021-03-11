@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6503a787fc2d86f8aa131e1c73ef38005fd678570c91d1128eb657f542dfffaa"
+            "sha256": "2f0f7a303a57f5e7cfb0988cfbfa7101ab573e377599cbef663de3bfd64fe515"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -232,6 +232,13 @@
             "markers": "python_version ~= '3.6'",
             "version": "==2.7.2"
         },
+        "pylint-flask": {
+            "hashes": [
+                "sha256:f4d97de2216bf7bfce07c9c08b166e978fe9f2725de2a50a9845a97de7e31517"
+            ],
+            "index": "pypi",
+            "version": "==0.6"
+        },
         "pylint-flask-sqlalchemy": {
             "hashes": [
                 "sha256:27f1fffb940adc9ac8f00ff7eb91ec39ca070c0f3bcec0d7f1c702a993d40505",
@@ -239,6 +246,13 @@
             ],
             "index": "pypi",
             "version": "==0.2.0"
+        },
+        "pylint-plugin-utils": {
+            "hashes": [
+                "sha256:2f30510e1c46edf268d3a195b2849bd98a1b9433229bb2ba63b8d776e1fc4d0a",
+                "sha256:57625dcca20140f43731311cd8fd879318bf45a8b0fd17020717a8781714a25a"
+            ],
+            "version": "==0.6"
         },
         "python-dotenv": {
             "hashes": [
