@@ -1,0 +1,6 @@
+POSTGRES_USER=postgres
+POSTGRES_PASS=roottoor
+POSTGRES_HOST=localhost
+POSTGRES_DB=pentester
+FLASK_KEY=Th1s1ss3cr3t
+DJANGO_KEY=nx%^a!&7p&oh5#f!bngh&#an*zfoe#vz75b0j=(3duna_#+_-&
