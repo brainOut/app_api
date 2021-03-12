@@ -41,6 +41,19 @@ class Project(db.Model):
     name = db.Column('name', db.String(100))
     token = db.Column('token', db.String(300))
     url = db.Column('url', db.String(300))
+    tests = db.relationship("PenTest")
+
+
+# model pentest
+class PenTest(db.Model):
+
+    __tablename__ = 'app_pentest'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    entity = db.Column('entity', db.String(50))
+    attr = db.Column('attr', db.String(50))
+    value = db.Column('value', db.String(100))
+    project_id = db.Column(db.Integer, db.ForeignKey('app_project.id'))
 
 
 # authentication
@@ -88,9 +101,11 @@ def token_required(f):
 @token_required
 def get_project( _, project_token):
     project = Project.query.filter_by(token=project_token).first()
+    tests = list(map(lambda obj: obj.entity, project.tests))
     return jsonify({
         "name": project.name,
-        "url": project.url
+        "url": project.url,
+        "tests": tests
     })
 
 

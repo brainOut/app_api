@@ -5,7 +5,7 @@ import getopt
 
 class PentesterApiClient():
 
-    def __init__(self, url):
+    def __init__(self, url="http://localhost:8000"):
         self.__url = url
         self.__token = None
         self.__project = None
@@ -17,8 +17,12 @@ class PentesterApiClient():
                 username, passwd))
         except (requests.HTTPError, requests.RequestException) as e:
             self.error = e
-        if r.status_code == 200:
-            self.__token = r.json()["token"]
+        else:
+            if r.status_code == 200:
+                self.__token = r.json()["token"]
+            else:
+                self.error = r.status_code
+
 
     def __get_project(self, project_token):
         try:
@@ -30,8 +34,11 @@ class PentesterApiClient():
                 })
         except (requests.HTTPError, requests.RequestException) as e:
             self.error = e
-        if r.status_code == 200:
-            self.__project = r.json()
+        else:
+            if r.status_code == 200:
+                self.__project = r.json()
+            else:
+                self.error = r.status_code
 
     def __get_tests(self, project_token):
         try:
@@ -56,10 +63,10 @@ class PentesterApiClient():
 if __name__ == "__main__":
     try:
         optlist, args = getopt.getopt(sys.argv[1:], None, ["url=", "user=", "passwd=", "token="])
-        url, user, passwd, token = list(dict(optlist).values())
+        user, passwd, token = list(dict(optlist).values())
     except (getopt.GetoptError, ValueError, OSError) as e:
         sys.exit(e)
-    api = PentesterApiClient(url)
+    api = PentesterApiClient()
     data = api.launch(user, passwd, token)
     print(data)
 
