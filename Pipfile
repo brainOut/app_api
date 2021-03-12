@@ -10,6 +10,8 @@ flask-sqlalchemy = "*"
 python-dotenv = "*"
 pylint-flask-sqlalchemy = "*"
 psycopg2-binary = "*"
+pyjwt = "==1.7.1"
+pylint-flask = "*"
 
 [dev-packages]
 

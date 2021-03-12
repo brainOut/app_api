@@ -1,0 +1,3 @@
+[submodule "app_sec"]
+	path = app_sec
+	url = git@github.com:brainOut/app_sec.git
