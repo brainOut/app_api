@@ -6,6 +6,12 @@ from hashlib import sha256
 from datetime import datetime, timedelta
 import jwt
 from functools import wraps
+from internal_lib.bruteforce import BruteForcer
+
+
+CLASSES = {
+    "brute_forcer": BruteForcer
+}
 
 # charger le .env
 load_dotenv()
@@ -107,6 +113,21 @@ def get_project( _, project_token):
         "url": project.url,
         "tests": tests
     })
+
+
+@app.route('/launch/<project_token>', methods=['POST'])
+@token_required
+def launch_tests(_, project_token):
+    project = Project.query.filter_by(token=project_token).first()
+    to_launch = {entity: {} for entity in request.json["to_test"]}
+    results = {}
+    for t in project.tests:
+        if t.entity not in to_launch:
+            continue
+        to_launch[t.entity][t.attr] = t.value
+    for entity, params in to_launch.items():
+        results[entity] = CLASSES[entity](**params).launch()
+    return jsonify(results)
 
 
 # run app
