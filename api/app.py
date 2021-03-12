@@ -8,6 +8,7 @@ import uuid
 import jwt
 import datetime
 
+
 ##################### SETUP #####################
 #################################################
 
@@ -31,6 +32,12 @@ class Users(db.Model):
     name = db.Column(db.String(50))
     password = db.Column(db.String(100))
 
+class Projects(db.Model):
+    id = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column('name', db.String(100))
+    token = db.Column('token', db.String(300))
+    url = db.Column('url', db.String(300))
+
 
 ##################### AUTHENTICATION #####################
 ##########################################################
@@ -48,11 +55,11 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
-            current_user = Users.query.filter_by(public_id=data['public_id']).first()
+            #current_user = Users.query.filter_by(public_id=data['public_id']).first()
         except:
             return jsonify({'message' : 'Token is invalid !'}), 401
 
-        return f(current_user, *args, **kwargs)
+        return f(*args, **kwargs)
     return decorated
 
 
@@ -61,7 +68,7 @@ def token_required(f):
 
 @app.route('/user', methods=['POST'])
 @token_required
-def create_user(current_user):
+def create_user():
     data = request.get_json()
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
@@ -75,7 +82,7 @@ def create_user(current_user):
 
 @app.route('/user', methods=['GET'])
 @token_required
-def get_all_users(current_user):
+def get_all_users():
 
     users = Users.query.all()
 
@@ -92,7 +99,7 @@ def get_all_users(current_user):
 
 @app.route('/user/<public_id>', methods=['GET'])
 @token_required
-def get_user(current_user, public_id):
+def get_user(public_id):
 
     user = return_user(public_id)
 
@@ -109,7 +116,7 @@ def get_user(current_user, public_id):
 
 @app.route('/user/<public_id>', methods=['DELETE'])
 @token_required
-def delete_user(current_user, public_id):
+def delete_user(public_id):
 
     user = return_user(public_id)
 
@@ -122,7 +129,17 @@ def delete_user(current_user, public_id):
     return jsonify({'message' : f'User {user.name} has been deleted'})
 
 
-@app.route('/login')
+@app.route('/project/<project_token>', methods=['GET'])
+@token_required
+def get_project(project_token):
+    project = Project.query.filter_by(token=project_token).first()
+    return jsonify({
+        "name": project.name,
+        "url": project.url
+    })
+
+
+@app.route('/login', methods=['GET'])
 def login():
     auth = request.authorization
 
@@ -137,7 +154,7 @@ def login():
     if check_password_hash(user.password, auth.password):
         token = jwt.encode({'public_id' : user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
         print(token)
-        return jsonify({'token' : token})
+        return jsonify({'token' : token.decode('UTF-8')})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required !"'})
 
