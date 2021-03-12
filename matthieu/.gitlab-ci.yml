@@ -1,0 +1,10 @@
+
+pentest:
+  script:
+    - pip3 install requests
+    - >
+      python3 client.py 
+      --user="admin" 
+      --passwd="project_1nx%^a!&7p&oh5#f!bngh&#an*zfoe#vz75b0j=(3duna_#+_-&" 
+      --token="3092c59e4c0059c24f15f557142f7598c6960d29a1a75455901ac084cda86d05" 
+      --tests=brute_forcer
