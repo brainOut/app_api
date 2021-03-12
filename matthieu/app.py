@@ -101,7 +101,7 @@ def token_required(f):
 @token_required
 def get_project( _, project_token):
     project = Project.query.filter_by(token=project_token).first()
-    tests = list(map(lambda obj: obj.entity, project.tests))
+    tests = list(set(map(lambda obj: obj.entity, project.tests)))
     return jsonify({
         "name": project.name,
         "url": project.url,
